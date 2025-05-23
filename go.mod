@@ -2,7 +2,12 @@ module github.com/demo-server
 
 go 1.23.4
 
-require github.com/gin-gonic/gin v1.10.1
+require (
+	github.com/gin-gonic/gin v1.10.1
+	github.com/jmoiron/sqlx v1.4.0
+	github.com/lib/pq v1.10.9
+	github.com/pkg/errors v0.9.1
+)
 
 require (
 	github.com/bytedance/sonic v1.11.6 // indirect

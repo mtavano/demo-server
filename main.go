@@ -1,7 +1,7 @@
 package main
 
 import (
-	"fmt"
+	"log"
 	"net/http"
 	"os"
 
@@ -34,6 +34,11 @@ func NewSqlStore(driver, dsn string) (*SqlStore, error) {
 	// Connection Lifetime
 	db.SetConnMaxLifetime(30 * time.Second)
 
+	_, err = db.Exec("SELECT true;")
+	if err != nil {
+		return nil, err
+	}
+
 	return &SqlStore{db}, nil
 }
 
@@ -52,12 +57,13 @@ func (st *SqlStore) BeginTx(ctx context.Context) (any, error) {
 //}
 
 func main() {
+	log.Println("Start demo server")
 	databaseDSN := os.Getenv("DATABASE_DSN")
 	db, err := NewSqlStore("postgres", databaseDSN)
 	if err != nil {
 		panic(err)
 	}
-	fmt.Println("db:", db)
+	log.Println("db:", db)
 
 	r := gin.Default()
 	r.GET("/ping", func(c *gin.Context) {
